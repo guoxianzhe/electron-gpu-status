@@ -11,12 +11,10 @@ jobs:
   build-windows:
     strategy:
       matrix:
-        arch: [ ia32, x64 ]
+        arch: [ia32, x64]
     runs-on: windows-latest
     env:
       npm_config_arch: ${{ matrix.arch }}
-      npm_config_agora_electron_arch: ${{ matrix.arch }}
-      npm_config_agora_electron_sdk_arch: ${{ matrix.arch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,7 +28,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: AgoraRtcNgExample-win-${{ matrix.arch }}
+          name: win-${{ matrix.arch }}
           path: |
             dist/electron-simple-test-*-win.zip
           if-no-files-found: error
@@ -46,13 +44,12 @@ jobs:
       - name: Build Example
         run: |
           yarn dist:mac
-        env: 
+        env:
           USE_HARD_LINKS: false
-      
+
       - uses: actions/upload-artifact@v3
         with:
-          name: AgoraRtcNgExample-mac
+          name: mac
           path: |
             dist/electron-simple-test-*-mac.zip
           if-no-files-found: error
-  
