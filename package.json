@@ -1,0 +1,90 @@
+{
+  "name": "electron-simple-test",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "npm run rebuild",
+    "start": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "rebuild": "electron-rebuild -f -o ref-napi",
+    "dist": "npm run compile && electron-builder",
+    "dist:mac": "npm run dist -- --mac",
+    "dist:win": "npm run dist -- --win",
+    "dist:win32": "npm run dist:win -- --ia32",
+    "dist:win64": "npm run dist:win -- --x64"
+  },
+  "build": {
+    "appId": "com.example.electron",
+    "asar": true,
+    "buildDependenciesFromSource": true,
+    "compression": "normal",
+    "productName": "electron-simple-test",
+    "publish": [],
+    "files": [
+      "!*.log"
+    ],
+    "mac": {
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "gatekeeperAssess": false,
+      "hardenedRuntime": true,
+      "identity": null,
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "type": "distribution"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "zip"
+      ]
+    },
+    "linux": {
+      "category": "Development",
+      "target": [
+        "AppImage"
+      ]
+    },
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "dependencies": {
+    "download": "^8.0.0",
+    "ffi-napi": "^4.0.3",
+    "ref-napi": "^3.0.3",
+    "source-map-support": "^0.5.16"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.2.10",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
+    "@types/download": "^8.0.2",
+    "@types/ffi-napi": "^4.0.7",
+    "@types/ref-napi": "^3.0.7",
+    "electron": "22.0.0",
+    "electron-builder": "^23.1.0",
+    "electron-webpack": "^2.8.2",
+    "typescript": "^4.5.2",
+    "webpack": "^4.43.0"
+  }
+}

@@ -1,0 +1,59 @@
+name: Build example
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    strategy:
+      matrix:
+        arch: [ ia32, x64 ]
+    runs-on: windows-latest
+    env:
+      npm_config_arch: ${{ matrix.arch }}
+      npm_config_agora_electron_arch: ${{ matrix.arch }}
+      npm_config_agora_electron_sdk_arch: ${{ matrix.arch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build Example
+        run: |
+          yarn dist:win --${{ matrix.arch }}
+        working-directory: example
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: AgoraRtcNgExample-win-${{ matrix.arch }}
+          path: |
+            dist/electron-simple-test-*-win.zip
+          if-no-files-found: error
+
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build Example
+        run: |
+          yarn dist:mac
+        env: 
+          USE_HARD_LINKS: false
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: AgoraRtcNgExample-mac
+          path: |
+            dist/electron-simple-test-*-mac.zip
+          if-no-files-found: error
+  
