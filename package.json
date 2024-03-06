@@ -7,7 +7,7 @@
     "start": "electron-webpack dev",
     "compile": "electron-webpack",
     "rebuild": "electron-rebuild -f -o ref-napi",
-    "dist": "npm run compile && electron-builder",
+    "dist": "npm run compile && electron-builder --publish=never",
     "dist:mac": "npm run dist -- --mac",
     "dist:win": "npm run dist -- --win",
     "dist:win32": "npm run dist:win -- --ia32",
