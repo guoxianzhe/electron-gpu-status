@@ -38,7 +38,7 @@ function createMainWindow() {
   //   );
   // }
   
-  window.loadURL("chrome://gpu");
+  window.loadURL("https://w3c.github.io/webcodecs/samples/video-decode-display/");
 
 
   window.on('closed', () => {
